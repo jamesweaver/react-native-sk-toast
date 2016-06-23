@@ -23,4 +23,11 @@ RCT_EXPORT_METHOD(show:(NSString *)message duration:(CGFloat)interval position:(
     });
 }
 
+RCT_EXPORT_METHOD(hide)
+{
+    // Execute ui change in main thread
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].keyWindow hideToasts];
+    });
+}
 @end

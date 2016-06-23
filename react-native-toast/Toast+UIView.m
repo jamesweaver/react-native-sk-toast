@@ -93,6 +93,7 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
 - (void)showToast:(UIView *)toast duration:(CGFloat)interval position:(id)point {
     toast.center = [self centerPointForPosition:point withToast:toast];
     toast.alpha = 0.0;
+    toast.tag = 1024;
     [self addSubview:toast];
     
     [UIView animateWithDuration:CSToastFadeDuration
@@ -111,6 +112,26 @@ static const NSString * CSToastActivityViewKey  = @"CSToastActivityViewKey";
                                           }];
                      }];
 }
+
+- (void)hideToasts{
+    NSEnumerator * subView = [self.subviews objectEnumerator];
+    UIView * view;
+    while((view = [subView nextObject]) != nil)
+    {
+        if(view.tag == 1024)
+        {
+        [UIView animateWithDuration:CSToastFadeDuration
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             view.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             [view removeFromSuperview];
+                         }];
+        }
+    }
+}
+
 
 #pragma mark - Toast Activity Methods
 
